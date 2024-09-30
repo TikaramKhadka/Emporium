@@ -27,6 +27,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import AddCategory from './addcategory/page';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import ViewCategory from './viewcategory/page';
 
 const CategoriesDataTable = () => {
   const [categories, setCategories] = useState([]);
@@ -37,6 +38,9 @@ const CategoriesDataTable = () => {
   const [searchTerm, setSearchTerm] = useState(''); // Search term state
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false); // State for View dialog
+  const [viewCategoryData, setViewCategoryData] = useState(null);  // State for category details
+
 
   const fetchCategories = async () => {
     try {
@@ -71,11 +75,18 @@ const CategoriesDataTable = () => {
     setCategoryToDelete(categoryId);
     setDeleteDialogOpen(true);
   };
-  const handleViewCategory = (categoryId) => {
-    setCategoryToDelete(categoryId);
-    setDeleteDialogOpen(true);
+ 
+  // Handle View Category button click
+  const handleViewCategory = (category) => {
+    setViewCategoryData(category);  // Set selected category's details
+    setIsViewDialogOpen(true);      // Open the view dialog
   };
 
+  // Close the View dialog
+  const handleCloseViewDialog = () => {
+    setIsViewDialogOpen(false);
+    setViewCategoryData(null);      // Reset category details when closing
+  };
   const confirmDeleteCategory = async () => {
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryToDelete}`);
@@ -154,7 +165,7 @@ const CategoriesDataTable = () => {
                   <IconButton onClick={() => handleDeleteCategory(item._id)}>
                     <DeleteIcon  sx={{ color: 'red' }}/>
                   </IconButton>
-                  <IconButton onClick={() => handleViewCategory(item._id)}>
+                  <IconButton onClick={() => handleViewCategory(item)}>
                     <VisibilityIcon  sx={{ color: '#1976d2' }}/>
                   </IconButton>
                 </TableCell>
@@ -162,9 +173,9 @@ const CategoriesDataTable = () => {
             ))}
           </TableBody>
         </Table>
-        <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
          {/* Custom Pagination */}
-        <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
           {/* Rows per page on the left */}
           <TablePagination
             component="div"
@@ -181,7 +192,7 @@ const CategoriesDataTable = () => {
             sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
           />
            {/* Total number of categories */}           
-          <Typography variant="body2" sx={{ marginLeft: 2 }}>
+          <Typography variant="body" sx={{ marginLeft: 2 }}>
             Total records: {categories.length}
           </Typography>
           </Box>
@@ -215,6 +226,13 @@ const CategoriesDataTable = () => {
         initialValues={editData}
         isEditMode={!!editData}
         fetchCategories={fetchCategories}
+      />
+
+        {/* View Category Dialog */}
+        <ViewCategory
+        isOpen={isViewDialogOpen}
+        onClose={handleCloseViewDialog}
+        categoryDetails={viewCategoryData}
       />
 
       {/* Delete Confirmation Dialog */}

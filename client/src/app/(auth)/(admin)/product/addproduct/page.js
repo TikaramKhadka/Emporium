@@ -30,11 +30,11 @@ const AddProduct = ({ isOpen, onClose, initialValues, isEditMode, fetchProducts,
       try {
         if (isEditMode && initialValues._id) {
           // Update existing product using PUT request
-          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/product/${initialValues._id}`, values);
+          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/products/${initialValues._id}`, values);
           toast.success('Product updated successfully');
         } else if (!isEditMode) {
           // Add new product using POST request
-          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registerproduct`, values);
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registerproducts`, values);
           toast.success('Product added successfully');
         } else {
           toast.error('Invalid product ID');

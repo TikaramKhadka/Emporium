@@ -24,14 +24,14 @@ const AddBrand = ({ isOpen, onClose, initialValues, isEditMode, fetchBrands }) =
       try {
         if (isEditMode && initialValues._id) { // Check if initialValues.id exists
           // Update existing brand using PUT request
-          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/brand/${initialValues._id}`, {
+          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/brands/${initialValues._id}`, {
             brandName: values.brandName,
             description: values.description,
           });
           toast.success('Brand updated successfully');
         } else if (!isEditMode) {
           // Add new brand using POST request
-          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registerbrand`, values);
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registerbrands`, values);
           toast.success('Brand added successfully');
         } else {
           toast.error('Invalid brand ID');

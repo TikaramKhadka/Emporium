@@ -106,7 +106,7 @@ const ProductDataTable = () => {
     <div>
       {/* Container for title and button */}
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} mt={2}>
-        <Typography className="font-bold" component="div" sx={{ flexGrow: 1 }}>
+        <Typography className="font-bold" variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Product List
         </Typography>
         <TextField
@@ -158,7 +158,7 @@ const ProductDataTable = () => {
               ))}
           </TableBody>
         </Table>
-        <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
           <Box display="flex" alignItems="center">
             {/* Rows per page on the left */}
             <TablePagination
@@ -215,7 +215,6 @@ const ProductDataTable = () => {
         isEditMode={!!editData}
         fetchProducts={fetchProducts}
       />
-
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
         <DialogTitle>Confirm Delete</DialogTitle>

@@ -159,9 +159,9 @@ const UsersDataTable = () => {
             ))}
           </TableBody>
         </Table>
-        <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
          {/* Custom Pagination */}
-        <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
           {/* Rows per page on the left */}
           <TablePagination
             component="div"

@@ -26,7 +26,7 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
       try {
         if (isEditMode && initialValues._id) { // Check if initialValues.id exists
           // Update existing category using PUT request
-          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/category/${initialValues._id}`, {
+          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/categories/${initialValues._id}`, {
             categoryName: values.categoryName,
             brandName: values.brandName,
             description: values.description,
@@ -34,7 +34,7 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
           toast.success('Category updated successfully');
         } else if (!isEditMode) {
           // Add new category using POST request
-          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registercategory`, values);
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registercategories`, values);
           toast.success('Category added successfully');
         } else {
           toast.error('Invalid category ID');
