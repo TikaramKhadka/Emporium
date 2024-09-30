@@ -15,16 +15,16 @@ const SummaryData = () => {
       title: 'Sales',
       count: '12 K',
       icon: <AttachMoneyIcon />,
-      color: '#4caf50',
+      color: '#8884D8',
     },
     {
       title: 'Orders',
       count: '850',
       icon: <ShoppingCartIcon/>,
-      color: '#2196f3',
+      color: '#82CA9D',
     },
     {
-      title: 'Brand',
+      title: 'Brands',
       count: '12',
       icon: <ApartmentRoundedIcon/>,
       color: '#f44336',
@@ -33,7 +33,7 @@ const SummaryData = () => {
       title: 'Products',
       count: '540',
       icon: <InventoryIcon />,
-      color: '#ff9800',
+      color: '#ff9600',
     },
     {
       title: 'Categories',
@@ -45,7 +45,7 @@ const SummaryData = () => {
       title: 'Users',
       count: '12',
       icon: <PeopleIcon/>,
-      color: '#f44336',
+      color: '#60BFC1',
     }
   ];
   return (   
