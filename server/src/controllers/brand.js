@@ -33,7 +33,7 @@ const registerBrand = async (req, res) => {
         const newBrand = await Brand.create(req.body);
         res.status(201).json({ msg: "Brand added successfully", newBrand });
     } catch (error) {
-        res.sendStatus(500).send({ msg: 'Error registering brand'});
+        res.status(500).json({ msg: 'Error registering brand'});
     }
 }
 
