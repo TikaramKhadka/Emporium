@@ -1,6 +1,8 @@
-const User = require('../models/user')
-require('dotenv').config();
-const saltRounds = process.env.SALT_ROUND;
+const {Router} = require('express')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
+const saltRounds =10;
 
 // get all users
 const getAllUser = async (req, res) => {
@@ -23,24 +25,29 @@ const getUserById =async (req, res) => {
         res.status(500).json({ msg: 'Error fetching user by ID'});
     }
 }
-// register new user
-const registerUser =async (req, res) => {
+//register new user
+const registerUser = async (req, res) => {
     try {
-        // to check existing email
-        const emailExists = await User.exists({email:req.body.email})
-        if(emailExists)
-        {
-            return res.status(404).json({msg:'email already exist'})
-        }
-        // to encrypt password 
-        req.body.password= bcrypt(req.body.password, saltRounds) 
-        // create new users
-        const newUser = await User.create(req.body);
-        res.status(201).json({ msg: "User registered successfully", newUser });
+      // Check if email or phone already exists
+      const emailExists = await User.exists({ email: req.body.email });
+      const phoneExists = await User.exists({ phoneNumber: req.body.phoneNumber });  
+      if (emailExists || phoneExists) {
+        return res.status(403).send({ msg: 'Email or Phone already taken' });
+      }  
+      // Encrypt password using bcrypt hash
+      // Define salt rounds 
+      req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+    // Create new user document in the User collection
+      await User.create(req.body);
+      
+      // Send success response
+      res.status(201).json({ msg: "User created successfully" });
+  
     } catch (error) {
-        res.status(500).json({ msg: 'Error registering user' });
+      console.error('Error registering user:', error); 
+      res.status(500).json({ msg: "Something went wrong" }); 
     }
-}
+  };   
 // login user credential
 const loginUser = async (req, res)=>{
     try {
@@ -50,7 +57,7 @@ const loginUser = async (req, res)=>{
         }
         const isMatched = await bcrypt.compare(req.body.password, user.password);
         if(isMatched){
-         const  token = jwt.sign({ email: req.body.email }, SECRET_KEY);
+         const  token = jwt.sign({ email: req.body.email }, 'shhhh');
          res.json({user,token,isLoggedIn: true})
         }else{
          res.json({msg: 'incorrect password'})
