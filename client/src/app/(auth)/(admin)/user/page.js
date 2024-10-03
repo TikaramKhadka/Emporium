@@ -103,7 +103,7 @@ const UsersDataTable = () => {
 
   // Filter users based on search term
   const filteredUsers = users.filter((users) =>
-    users.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+    users.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

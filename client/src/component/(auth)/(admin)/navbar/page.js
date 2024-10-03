@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem, IconButton, Box, Badge } from '@mui/material';
+import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem, IconButton, Box, Badge, Paper } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Logout from '@mui/icons-material/Logout';
 import Lock from '@mui/icons-material/Lock';
@@ -8,6 +8,7 @@ import Person from '@mui/icons-material/Person';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MessageIcon from '@mui/icons-material/Message';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Image } from '@mui/icons-material';
 
 const TopNavbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -39,9 +40,9 @@ const TopNavbar = () => {
     <AppBar position="static" style={{ backgroundColor: '#fff', color: '#000', height: '60px' }}>
       <Toolbar style={{ minHeight: '60px', display: 'flex', justifyContent: 'space-between' }}>
         {/* Left: Company Logo or Name */}
-        <Typography variant="h6" noWrap component="div">
-          Shooping 
-        </Typography>
+        <Paper variant="outlined">
+        <img src="logo.png" height={40} width={200} />       
+      </Paper>     
 
         {/* Center: Notification and Message Icons */}
         <Box display="flex" alignItems="center">
