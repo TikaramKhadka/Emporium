@@ -4,9 +4,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Card, CardMedia, CardContent, CardActions, Button, Link } from '@mui/material';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/redux/userSlice';
 
 const Login = () => {
+  const dispatch = useDispatch();
   const router = useRouter(); // Initialize the router
 
   // Validation schema for the form
@@ -16,18 +19,25 @@ const Login = () => {
   });
 
   // Handler for form submission
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      debugger;   
-      const data  = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, values);
-      console.log('Form submitted successfully!', data);      
-      // Assuming successful login, redirect to dashboard
-      router.push('/dashboard');
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, values);
+      const data = response.data;  // Make sure to get the data from the response
+      if (data.isLoggedIn) {
+        // Dispatch the login state first, then redirect
+        dispatch(setUser(data)); // Assuming data.userDetails contains the user's data
+
+        // After dispatching the action, navigate to the home page
+        router.push("/dashboard");
+      } else {
+        // Handle case where login fails but the response is 200
+        setErrors({ email: 'Login failed: Invalid credentials' });
+      }
     } catch (error) {
       console.error('Error during login:', error);
-      // Handle error (e.g., show error message to the user)
+      setErrors({ email: 'Login failed: ' + error.response.data.message || 'An error occurred' });  // Provide user feedback
     } finally {
-      setSubmitting(false); // Reset form submitting status
+      setSubmitting(false);  // Finish the submission process
     }
   };
 
@@ -39,7 +49,7 @@ const Login = () => {
             component="img"
             alt="logo"
             height="140"
-            image="/logo.png" // Ensure the correct path to the logo image
+            image="/emporiumlogo.png"
           />
           <CardContent>
             <Formik

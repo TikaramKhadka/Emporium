@@ -53,7 +53,7 @@ const Register = () => {
             component="img"
             alt="Ecomsol"
             height="140"
-            image="/logo.png"
+            image="/emporiumlogo.png"
           />
           <CardContent>
             <Formik

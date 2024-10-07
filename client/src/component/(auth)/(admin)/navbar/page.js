@@ -1,4 +1,4 @@
-'use client'
+// TopNavbar.js
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem, IconButton, Box, Badge, Paper } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -7,14 +7,18 @@ import Lock from '@mui/icons-material/Lock';
 import Person from '@mui/icons-material/Person';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MessageIcon from '@mui/icons-material/Message';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Image } from '@mui/icons-material';
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from '@/redux/userSlice';
 
 const TopNavbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notificationsMenu, setNotificationsMenu] = useState(null);
   const [messagesMenu, setMessagesMenu] = useState(null);
-
+  debugger
+  // Access userDetails from the Redux store
+  const dispatch = useDispatch();
+  const userData = useSelector(state => state.user.userDetails); // Correctly access userDetails
+  
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -36,13 +40,17 @@ const TopNavbar = () => {
     setMessagesMenu(null);
   };
 
+  const handleLogout = () => {
+    dispatch(removeUser());
+  };
+
   return (
     <AppBar position="static" style={{ backgroundColor: '#fff', color: '#000', height: '60px' }}>
       <Toolbar style={{ minHeight: '60px', display: 'flex', justifyContent: 'space-between' }}>
         {/* Left: Company Logo or Name */}
         <Paper variant="outlined">
-        <img src="logo.png" height={40} width={200} />       
-      </Paper>     
+          <img src="emporiumlogo.png" height={40} width={200} alt="Company Logo" />
+        </Paper>
 
         {/* Center: Notification and Message Icons */}
         <Box display="flex" alignItems="center">
@@ -57,9 +65,9 @@ const TopNavbar = () => {
             </Badge>
           </IconButton>
           <IconButton edge="end" onClick={handleMenu} color="inherit" style={{ marginLeft: '16px' }}>
-            <Avatar alt="User Photo" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="User Photo" src="imporiumlogo.png" />
             <Typography variant="body1" style={{ marginLeft: '10px' }}>
-              Tikaram Khadka
+              {userData?.user?.email || 'Guest'} {/* Fetch email here */}
             </Typography>
           </IconButton>
           <Menu
@@ -78,7 +86,7 @@ const TopNavbar = () => {
               <Lock fontSize="small" style={{ marginRight: '10px' }} />
               Change Password
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleLogout}>
               <Logout fontSize="small" style={{ marginRight: '10px' }} />
               Log Out
             </MenuItem>

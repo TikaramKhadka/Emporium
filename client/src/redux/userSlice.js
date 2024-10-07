@@ -1,22 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
-export const userSlice = createSlice({   
-    name:'user',
-    initialState :{
-        name:'',
-        email:'',
-        isLoggedIn:false,
-        isPremium:false,
+
+// Initial state for the user slice
+const initialState = {
+    userDetails: null,
+  };
+
+// Create user slice
+ const userSlice = createSlice({
+  name: 'user',
+  initialState,  // Use the defined initial state
+  reducers: {
+    // Set login action
+    setUser: (state, action) => {
+      state.userDetails = action.payload;  // Store user details on login
     },
-    reducers:{
-        setLogin: (state, action) => {
-            state.userDetails = action.payload
-          },
-          setLogout: (state, action) => {
-            return  initialState
-          },
-    }
+    // Set logout action
+    removeUser: (state) => {
+      return initialState;  // Reset to initial state
+    },
+  }
+});
 
-})
+// Export actions to be used in your components
+export const { setUser, removeUser } = userSlice.actions;
 
-export const {loginUser, logOutUser} =userSlice.actions
-export default userSlice.reducer
+// Export the reducer to be used in the store
+export default userSlice.reducer;
