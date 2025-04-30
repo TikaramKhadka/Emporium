@@ -4,8 +4,8 @@ import { Box, Grid, Paper, Typography, Avatar, List, ListItem, ListItemText } fr
 import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
-const dispatch = useDispatch();
-const userData = useSelector(state => state.user.userDetails); 
+  const dispatch = useDispatch();
+  const userData = useSelector(state => state.user.userDetails); 
   const [selectedMenu, setSelectedMenu] = useState("My Orders");
 
   const menuItems = {
@@ -22,8 +22,20 @@ const userData = useSelector(state => state.user.userDetails);
   return (
     <Box sx={{ padding: 4 }}>
       <Grid container spacing={2}>
+        {/* Right Side - Content */}
+        <Grid item xs={12} md={10}>
+          <Paper sx={{ padding: 3, height: "100%" }}>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              {selectedMenu}
+            </Typography>
+            <Typography variant="body1">
+              {menuItems[selectedMenu]}
+            </Typography>
+          </Paper>
+        </Grid>
+
         {/* Left Side */}
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={2}>
           <Paper sx={{ padding: 2 }}>
             {/* Profile Picture and Info */}
             <Box sx={{ textAlign: "center", mb: 4 }}>
@@ -33,10 +45,10 @@ const userData = useSelector(state => state.user.userDetails);
                 sx={{ width: 100, height: 100, margin: "auto" }}
               />
               <Typography variant="h6" sx={{ mt: 2 }}>
-              {userData?.user?.name || 'Guest'}
+                {userData?.user?.name || 'Guest'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              {userData?.user?.email || 'Guest'}
+                {userData?.user?.email || 'Guest'}
               </Typography>
             </Box>
 
@@ -59,18 +71,6 @@ const userData = useSelector(state => state.user.userDetails);
                 </ListItem>
               ))}
             </List>
-          </Paper>
-        </Grid>
-
-        {/* Right Side - Content */}
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ padding: 3, height: "100%" }}>
-            <Typography variant="h5" sx={{ mb: 2 }}>
-              {selectedMenu}
-            </Typography>
-            <Typography variant="body1">
-              {menuItems[selectedMenu]}
-            </Typography>
           </Paper>
         </Grid>
       </Grid>

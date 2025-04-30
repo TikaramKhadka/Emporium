@@ -112,32 +112,6 @@ const AddSystemUser = ({ isOpen, onClose, initialValues, isEditMode, fetchUsers 
                 helperText={formik.touched.address && formik.errors.address}
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                id="password"
-                label="Password"
-                type="password"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                {...formik.getFieldProps('password')}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                id="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                {...formik.getFieldProps('confirmPassword')}
-                error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-              />
-            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>

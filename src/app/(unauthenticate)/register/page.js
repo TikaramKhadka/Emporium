@@ -31,8 +31,8 @@ const Register = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {  
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/register`, values, {
-        });
+      debugger;
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/register`, values);
         console.log('User registered successfully:', response.data);
         toast.success("User Created Successfully");
         router.push('/login');

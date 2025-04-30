@@ -1,6 +1,15 @@
 'use client';
 import React from 'react';
-import { Grid, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem } from '@mui/material';
+import {
+  Grid,
+  TextField,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
@@ -39,33 +48,45 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
     validateOnChange: false,
     validateOnBlur: true,
     onSubmit: async (values, { resetForm }) => {
-      debugger;
-      try {
-        const payload = {
-          categoryName: values.categoryName,
-          brandId: values.brandId,
-          description: values.description,
-        };
+      const payload = {
+        categoryName: values.categoryName,
+        brandId: values.brandId,
+        description: values.description,
+      };
 
+      let success = false;
+
+      try {
         if (isEditMode && initialValues._id) {
           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/categories/${initialValues._id}`, payload);
           toast.success('Category updated successfully');
+          success = true;
         } else if (!isEditMode) {
           await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registercategories`, payload);
           toast.success('Category added successfully');
+          success = true;
         } else {
           toast.error('Invalid category ID');
         }
-        resetForm();
-        fetchCategories();
-        onClose();
       } catch (error) {
         if (error.response?.data?.message) {
           toast.error(error.response.data.message);
         } else {
           toast.error('Error submitting category');
         }
-        console.error('Error:', error);
+        console.error('API Error:', error);
+        return; // stop further execution if API failed
+      }
+
+      // Only run if API was successful
+      if (success) {
+        try {
+          resetForm();
+          fetchCategories();
+          onClose();
+        } catch (err) {
+          console.error('Post-submit error:', err);
+        }
       }
     },
   });
