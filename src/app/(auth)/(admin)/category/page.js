@@ -114,11 +114,12 @@ const CategoriesDataTable = () => {
     setPage(0);
   };
 
-  // Filter categories based on search term
-  const filteredCategories = categories.filter((category) =>
-    category.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  const filteredCategories = categories.filter((category) => {
+    const categoryName = category.categoryName || '';
+    const brandName = category.brandId?.brandName || '';
+    const lowerSearch = searchTerm.toLowerCase();
+    return categoryName.toLowerCase().includes(lowerSearch) || brandName.toLowerCase().includes(lowerSearch);
+  });
   return (
     <div>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} mt={2}>
